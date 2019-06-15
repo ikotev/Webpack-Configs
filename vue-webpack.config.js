@@ -6,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const webRoot = 'wwwroot';
 
@@ -13,17 +14,27 @@ var config = {
     stats: { colors: true },
 
     entry: {
-        main: './src/main.js'
+        main: './src/main.js',
+        main2: './src/main2.js'
     },
 
     output: {
         filename: '[name].js',
+        chunkFilename: '[name].bundle.js',
         path: path.resolve(__dirname, webRoot)
+    },
+
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        },
+        minimize: false,
+        namedModules: true
     },
 
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js' 
+            'vue$': 'vue/dist/vue.esm.js'
         }
     },
 
@@ -82,22 +93,28 @@ var config = {
 
         new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery'
+            jQuery: 'jquery',
+            //_: 'lodash'
         }),
 
         new MiniCssExtractPlugin({
             filename: "./css/[name].css",
             chunkFilename: "[id].css"
         }),
+
         new HtmlWebpackPlugin({
             title: 'Custom template',
             template: './src/index.html'
         }),
-        new VueLoaderPlugin()
+
+        new VueLoaderPlugin(),
+
+        //new BundleAnalyzerPlugin()
     ]
 };
 
 module.exports = (env, argv) => {
+
     if (argv.mode === 'development') {
         config.devtool = 'inline-source-map';
     }

@@ -76,6 +76,7 @@ module.exports = (env, argv) => {
 
     config.mode = env.mode;
 
+    // "build:dev": "webpack --config webpack.config.js --mode=development"
     if (env.mode === 'development') {
         config.devtool = 'inline-source-map';
     }

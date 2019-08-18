@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 
 const path = require('path');
 const webpack = require('webpack');
@@ -80,15 +80,10 @@ module.exports = (env, argv) => {
     
     if (argv.mode === 'development') {
         config.devtool = 'inline-source-map';
-        config.optimization.minimize = false;
-        config.optimization.namedModules = true;
-        config.optimization.moduleIds = 'named';
-        config.optimization.chunkIds = 'named';
     }
 
     if (argv.mode === 'production') {
-        config.optimization.minimize = true;
-        config.optimization.namedModules = false;
+        //
     }
 
     return config;

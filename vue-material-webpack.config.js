@@ -14,7 +14,12 @@ var config = {
     stats: { colors: true },
 
     entry: {
-        app: './src/app.js'
+        app: './src/app.js',
+        app2: './src/app.js',
+        app3: './src/app.js',
+        app4: './src/app.js',
+        app5: './src/app2.js',
+        app6: './src/app2.js'
     },
 
     output: {
@@ -24,8 +29,20 @@ var config = {
     },
 
     optimization: {
+        
         splitChunks: {
-            chunks: 'all'
+            chunks: 'all',
+            minSize: 0,
+
+            cacheGroups: {
+                default: {
+                    reuseExistingChunk: false
+                },
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors'
+                }
+            }
         }
     },
 
@@ -77,7 +94,7 @@ var config = {
 module.exports = (env, argv) => {
     config.mode = env.mode;
     // "build:dev": "webpack --config webpack.config.js --env.mode=development"
-    
+
     if (argv.mode === 'development') {
         config.devtool = 'inline-source-map';
     }

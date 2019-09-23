@@ -14,12 +14,7 @@ var config = {
     stats: { colors: true },
 
     entry: {
-        app: './src/app.js',
-        app2: './src/app.js',
-        app3: './src/app.js',
-        app4: './src/app.js',
-        app5: './src/app2.js',
-        app6: './src/app2.js'
+        app: './src/app.js'     
     },
 
     output: {
@@ -29,7 +24,7 @@ var config = {
     },
 
     optimization: {
-        
+
         splitChunks: {
             chunks: 'all',
             minSize: 0,
@@ -45,13 +40,7 @@ var config = {
             }
         }
     },
-
-    resolve: {
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js'
-        }
-    },
-
+  
     module: {
         rules: [
             {
@@ -75,28 +64,28 @@ var config = {
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
-
-        new webpack.ProvidePlugin({
-            _: 'lodash'
-        }),
-
+        
         new MiniCssExtractPlugin({
             filename: "./css/[name].css",
             chunkFilename: "[id].css"
         }),
 
-        new VueLoaderPlugin(),
+        new VueLoaderPlugin()
 
         //new BundleAnalyzerPlugin()
     ]
 };
 
 module.exports = (env, argv) => {
-    config.mode = env.mode;
-    // "build:dev": "webpack --config webpack.config.js --env.mode=development"
+    config.mode = argv.mode;
+    // "build:dev": "webpack --config webpack.config.js --mode=development"
 
     if (argv.mode === 'development') {
         config.devtool = 'inline-source-map';
+        config.watch = false;
+        config.watchOptions = {
+            ignored: /node_modules/
+        };
     }
 
     if (argv.mode === 'production') {
